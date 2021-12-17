@@ -1,0 +1,48 @@
+{% extends 'accounts/base_login.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} ایجاد حساب کاربری جدید {% endblock %}
+
+
+{% block form_title %}ایجاد حساب کاربری جدید{% endblock form_title %}
+
+{% block form_inputs %}
+    <br>
+    
+    {{ form.first_name|as_crispy_field }}
+    <div class="my-4"></div>
+
+    {{ form.last_name|as_crispy_field }}
+    <div class="my-4"></div>
+
+    {{ form.username|as_crispy_field }}
+    <div class="my-4"></div>
+
+    {{ form.email|as_crispy_field }}
+    <div class="my-4"></div>
+
+    {{ form.phone|as_crispy_field }}
+    <div class="my-4"></div>
+
+    {{ form.password1|as_crispy_field }}
+    <div class="my-4"></div>
+
+    {{ form.password2|as_crispy_field }}
+
+
+{% endblock form_inputs %}
+
+
+{% block form_button %}ثبت‌نام کنید{% endblock form_button %}
+
+
+{% block form_footer %}
+
+
+<p class="my-2 text-muted">
+حساب کاربری دارید؟
+    <a class="text-blue justify-content-center align-self-center" 
+    href="{% url 'accounts:login' %}">
+    وارد شوید</a>
+</p>
+{% endblock form_footer %}

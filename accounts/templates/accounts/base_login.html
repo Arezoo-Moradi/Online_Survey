@@ -1,0 +1,58 @@
+{% extends "layouts/base-fullscreen.html" %}
+{% load static %}
+
+{% block content %}
+<div class="auth-wrapper aut-bg-img-side cotainer-fiuid align-items-stretch">
+	<div class="row align-items-center w-100 align-items-stretch bg-white">
+		{% comment %} Backgorund {% endcomment %}
+		<div class="lazy d-none d-lg-block col-lg-8 align-items-center justify-content-center"
+			{% if site.login_background %} style=" background-size: cover; background-position: center; background-repeat: no-repeat;
+                    background-image:url('{{ site.login_background.url }}')" {% else %}
+			style="background-color: #04a9f5" {% endif %}>
+
+			<div class="col-md-12  align-self-baseline mt-5 pt-5">
+				<h1 class="text-white text-center mt-2">
+				{{ site.login_title|default:"" }}</h1>
+			</div>
+		</div>
+
+		{% comment %} Form {% endcomment %}
+		<div class="col-lg-4 align-items-stret h-100 align-items-center d-flex justify-content-center">
+			<div class=" auth-content text-center">
+				<div class="mb-5 mt-1">
+					{% if site.large_logo_dark %}
+					<img src="{{ site.large_logo_dark.url }}" class="mx-auto d-flex" loading="lazy"
+						alt="{{ site.title }}">
+					{% endif %}
+				</div>
+				<h3 class="font-20">
+					{% block form_title %}{% endblock form_title %}
+				</h3>
+
+				{% if msg %}
+				<span class="mb-0 mt-4 text-muted">
+					<span class="text-danger">{{ msg | safe }}</span>
+				</span>
+				{% endif %}
+				<div class="mx-0 mx-lg-2 mt-3">
+					{% block form %}
+					<form role="form" class="mb-4" method="post" action="">
+						{% csrf_token %}
+
+						{% block form_inputs %}{% endblock form_inputs %}
+
+						<button type="submit" name="login" class="btn btn-primary shadow-2 mb-1 mx-0">
+							{% block form_button %}{% endblock form_button %}
+						</button>
+					</form>
+					{% endblock form %}
+					<hr>
+					{% block form_footer %}{% endblock form_footer %}
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+{% endblock content %}

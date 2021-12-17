@@ -1,0 +1,128 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %}انتخاب خدمات{% endblock %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+    <li class="breadcrumb-item"><a href="{% url 'accounts:verification' %}">احراز هویت</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'accounts:subscription' %}">انتخاب خدمات</a></li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block stylesheets %}
+{% comment %}
+<!--  SELECT 2 css  --> {% endcomment %}
+<link rel="stylesheet" href="{% static 'plugins/select2/select2.min.css' %}">
+<link rel="stylesheet" href="{% static 'plugins/select2/multi-select.css' %}">
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="row mt-2">
+    <div class="col-12 col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>انتخاب خدمات</h5>
+            </div>
+            <form action="." method="POST">
+                {% csrf_token %}
+
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>داشبوردها</label>
+                                <select dir="rtl" name="dashboard" title="" aria-hidden="true" tabindex="-1"
+                                    data-select2-id="1" multiple=""
+                                    class="text-right js-example-basic-multiple col-sm-12 select2-hidden-accessible"
+                                    id="id_dashboards">
+
+                                    {%  for dashboard in all_dashboards %}
+                                    <option value="{{ dashboard.id }}"
+                                        {% if dashboard in user_dashboards %}selected="selected" {% endif %}>
+                                        {{ dashboard.title }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>گروه محصولات</label>
+
+                                <select dir="rtl" name="productgroup" title="" aria-hidden="true" tabindex="-1"
+                                    data-select2-id="2" multiple=""
+                                    class="text-right js-example-basic-multiple col-sm-12 select2-hidden-accessible"
+                                    id="id_productgroups">
+
+                                    {%  for productgroup in all_productgroups %}
+                                    <option value="{{ productgroup }}"
+                                        {% if productgroup in user_productgroups %}selected="selected" {% endif %}>
+                                        {{ productgroup }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mx-auto mb-4 d-flex">
+                        ثبت و ذخیره
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% if user_dashboards %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>داشبوردهای من</h5>
+            </div>
+
+            <div class="card-body">
+                {% for dashboard in user_dashboards %}
+                <a target="_blank"  href="{{ dashboard.path }}" class="btn btn-outline-primary d-inline-block mx-1 mb-2 font-15">
+                    <i class="feather icon-package mr-0"></i>
+                    {{ dashboard.title }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock content %}
+
+{% block javascripts %}
+{% comment %}
+<!--  SELECT 2 js  --> {% endcomment %}
+<script src="{% static 'plugins/select2/select2.full.min.js' %}"></script>
+<script src="{% static 'plugins/select2/jquery.quicksearch.js' %}"></script>
+<script src="{% static 'plugins/select2/jquery.multi-select.js' %}"></script>
+<script src="{% static 'plugins/select2/form-select-custom.js' %}"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.js-example-basic-multiple').select2({
+            width: '100%',
+            placeholder: 'یک یا چند مورد انتخاب کنید',
+            language: {
+                noResults: function () {
+                    return '<span>داده‌ای یافت نشد!</span>';
+                },
+            },
+            escapeMarkup: function (markup) {
+                return markup;
+            },
+        });
+    });
+</script>
+{% endblock javascripts %}

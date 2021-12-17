@@ -1,0 +1,70 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %}احراز هویت{% endblock %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+    <li class="breadcrumb-item"><a href="{% url 'accounts:verification' %}">احراز هویت</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'accounts:email-verification' %}">تایید پست الکترونیکی</a></li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block content %}
+
+{% if request.user.verified_email %}
+<div class="row mt-2">
+    <div class="col-12 col-md-6">
+        <div class="alert alert-success m-0" role="alert">
+            <h4 class="alert-heading font-weight-bolder">پست الکترونیکی {{ user.email }} تایید شده است
+                <i class="feather icon-award"></i>
+                <hr class="bg-secondary">
+                <a href="/" class="">
+                    <button class="btn btn-outline-dark d-flex">
+                        <i class="feather icon-home mr-0 ml-1 align-self-center"></i>
+                        بازگشت به صفحه اصلی
+                    </button>
+                </a>
+        </div>
+    </div>
+
+    {% else %}
+    <div class="row mt-2">
+        <div class="col-12 col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>تایید پست الکترونیکی</h5>
+                </div>
+                <div class="card-body">
+                    <h4 class="text-center" style="line-height:1.5">
+                        کد تایید ارسال شده به پست الکترونیکی <span class="text-blue">{{ user.email }}</span> را وارد
+                        نمایید:
+                    </h4>
+                    <form action="." method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12 col-md-3 mx-auto">
+                                <input type="number" name="email_verify_code"
+                                    class="mx-auto my-3 form-control text-center" placeholder="کد تایید" dir="ltr"
+                                    required title="">
+                                <button type="submit" class="btn btn-primary mx-auto d-flex">تایید پست
+                                    الکترونیکی</button>
+                            </div>
+                        </div>
+                        <hr>
+                        <center>
+                            <a href="{% url 'accounts:send-email-verification' %}" class="text-muted">ارسال مجدد کد
+                                تایید
+                                <i class="feather icon-rotate-cw"></i>
+                            </a>
+                        </center>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% endblock content %}

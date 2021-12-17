@@ -1,0 +1,43 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %}احراز هویت{% endblock %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+    <li class="breadcrumb-item"><a href="">احراز هویت</a></li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block content %}
+<div class="row mt-2">
+    <div class="col-12 col-md-6">
+        <div class="alert alert-success m-0" role="alert">
+        {% if request.is_verified or request.has_admin_access %}
+            <h4 class="alert-heading font-weight-bolder">حساب کاربری شما فعال شده است
+            <i class="feather icon-award"></i>
+            <hr class="bg-secondary">
+            <a href="/" class="">
+            <button class="btn btn-outline-dark d-flex">
+            <i class="feather icon-home mr-0 ml-1 align-self-center"></i>
+            بازگشت به صفحه اصلی
+            </button>
+            </a>
+        {% else %}
+            <h4 class="alert-heading font-weight-bolder">{{ user.get_full_name }} گرامی
+            </h4>
+            <hr class="bg-secondary">
+            <p class="font-16">جهت استفاده از خدمات سایت لطفا پست الکترونیکی خود را تایید کنید.</p>
+            <br>
+            <a href="{% url 'accounts:email-verification' %}" class="">
+            <button class="btn btn-primary d-flex">
+            <i class="feather icon-mail mr-0 ml-1 align-self-center"></i>
+            تایید پست الکترونیکی
+            </button>
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

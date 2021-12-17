@@ -1,0 +1,38 @@
+{% extends 'accounts/base_login.html' %}
+
+{% block title %} ورود به سایت {% endblock %}
+
+
+{% block form_title %}ورود به سایت{% endblock form_title %}
+
+
+{% block form_inputs %}
+<div class="input-group mb-3" dir="ltr">
+    {{ form.username }}
+</div>
+<div class="input-group mb-0" dir="ltr">
+    {{ form.password }}
+</div>
+
+<p class="text-muted text-left mb-3 pt-1">
+    <a class="justify-content-end text-muted font-12 d-flex" href="/password_reset/">
+    بازیابی کلمه عبور
+    <i class="feather icon-eye align-self-center mr-1"></i>
+    </a>
+</p>
+{% endblock form_inputs %}
+
+
+{% block form_button %}وارد شوید{% endblock form_button %}
+
+
+{% block form_footer %}
+
+
+<p class="my-2 text-muted">
+    <a class="text-blue d-flex justify-content-center align-self-center" 
+    href="{% url 'accounts:signup' %}">
+    <i class="feather icon-user-plus align-self-center ml-1 font-16"></i>
+    ایجاد حساب کاربری جدید</a>
+</p>
+{% endblock form_footer %}
