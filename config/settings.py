@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'OnlineForm',
     'SampleForms',
-    'form_app'
+    'form_app',
+    # 'django_form_builder'
+    'bootstrapform',
+    'survey'
 ]
 
 MIDDLEWARE = [
@@ -115,9 +118,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
-STATIC_DIRS = (
-    '/staticfiles/'
-)
+# STATIC_DIRS = (
+#     '/staticfiles/'
+# )
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -125,3 +128,15 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+FORMS_BASE_URL = 'forms'
+
+EMAIL_HOST = 'MAIL_SERVER'
+EMAIL_HOST_USER = 'MAIL_ACCOUNT'
+EMAIL_HOST_PASSWORD = 'MAIL_PASSWORD'
+EMAIL_PORT = 'PORT'
+EMAIL_USE_TLS = True
+
+CSV_DIRECTORY = Path("csv")  # Define the directory where csv are exported
+TEX_DIRECTORY = Path("tex")
+USER_DID_NOT_ANSWER = "NAA"
