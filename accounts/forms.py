@@ -4,9 +4,9 @@ from accounts.models import User
 
 
 class UserRegisterForm(UserCreationForm):
-  email = forms.EmailField()
+    email = forms.EmailField()
 
-  def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(UserRegisterForm, self).__init__(*args, **kwargs)
         self.fields['username'].widget.attrs.pop("autofocus", None)
         self.fields['username'].help_text = "<div class='text-right'>شامل حروف انگلیسی، اعداد و علامات</div>"
@@ -34,12 +34,11 @@ class UserRegisterForm(UserCreationForm):
 
         for visible in self.visible_fields():
             visible.field.widget.attrs['title'] = ''
-  
-  class Meta:
+
+    class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'email', 'phone', 'password1' ,'password2']
-        
-    
+        fields = ['username', 'email', 'first_name', 'last_name', 'email', 'phone', 'password1', 'password2']
+
 
 class LoginForm(forms.Form):
     username = forms.CharField(

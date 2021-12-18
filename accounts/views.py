@@ -19,6 +19,7 @@ from django.contrib.auth.decorators import login_required
 from dashboards.models import *
 from pricing_project.settings import PRICING_DB
 
+
 # ------------------------------ SignUp View ------------------------------
 class SignUpView(SuccessMessageMixin, generic.CreateView):
     template_name = 'accounts/signup.html'
@@ -34,7 +35,6 @@ class SignUpView(SuccessMessageMixin, generic.CreateView):
         login(self.request, user)
         send_email_verification(self.request)
         return HttpResponseRedirect("/")
-        
 
 
 # --------------------------- Verifications -----------------------------
@@ -52,7 +52,7 @@ class EmailVerificationView(LoginRequiredMixin, generic.TemplateView):
                 messages.warning(request, "کد تایید منقضی شده است!")
             elif email_verify_code != verify_code.code:
                 messages.error(request, "کد تایید صحیح نمی‌باشد!")
-            
+
             if email_verify_code == verify_code.code:
                 verify_code.is_used = True
                 user.verified_email = True
@@ -63,8 +63,9 @@ class EmailVerificationView(LoginRequiredMixin, generic.TemplateView):
             return redirect("accounts:email-verification")
 
         else:
-            messages.error(request, "کد تایید را وارد نمایید") 
+            messages.error(request, "کد تایید را وارد نمایید")
             return redirect("accounts:email-verification")
+
 
 @login_required()
 def send_email_verification(request):
@@ -78,27 +79,27 @@ def send_email_verification(request):
         messages.error(request, "حداکثر تعداد مجاز ارسال کد در یک روز استفاده شده است!")
         return redirect("accounts:email-verification")
     else:
-        vc = VerifyCode.objects.create(user=user, type="email", code=randint(100000,999999))
+        vc = VerifyCode.objects.create(user=user, type="email", code=randint(100000, 999999))
 
         data = {
             "user": user.get_full_name(),
             "code": vc.code,
-        }  
+        }
         email_template = "accounts/email_verification_text.html"
         email_message = get_template(email_template).render(data)
         try:
             msg = EmailMessage(
-                    f"تایید پست الکترونیکی",
-                    email_message,
-                    'پنل قیمت‌گذاری هوشمند <example@example.com>',
-                    [user.email]
+                f"تایید پست الکترونیکی",
+                email_message,
+                'پنل قیمت‌گذاری هوشمند <example@example.com>',
+                [user.email]
             )
             msg.send()
             print("sent !!!!!!!!!!")
-            
+
             messages.success(request, "کد تایید با موفقیت ارسال گردید.")
             return redirect("accounts:email-verification")
-            
+
         except:
             messages.error(request, "مشکلی در ارسال ایمیل پیش آمده!")
             return redirect("accounts:email-verification")
@@ -110,7 +111,7 @@ class SubscriptionView(LoginRequiredMixin, UserVerificationMixin, generic.Templa
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["all_productgroups"] = Pricingreport.objects.using(PRICING_DB).\
+        context["all_productgroups"] = Pricingreport.objects.using(PRICING_DB). \
             values_list('productgroup', flat=True).order_by('productgroup').distinct()
         context["all_dashboards"] = Dashboard.objects.all()
         context["user_dashboards"] = self.request.user.dashboards.all()
@@ -140,8 +141,6 @@ class SubscriptionView(LoginRequiredMixin, UserVerificationMixin, generic.Templa
 
         return redirect("accounts:subscription")
 
-        
-
 
 # ------------------------------ Login View ------------------------------
 def login_view(request):
@@ -167,8 +166,7 @@ def login_view(request):
         else:
             msg = 'خطا در اعتبار اطلاعات!'
 
-    return render(request, "accounts/login.html", {"form": form, "msg" : msg})
-
+    return render(request, "accounts/login.html", {"form": form, "msg": msg})
 
 
 # ------------------------------ Password Change View ------------------------------
@@ -184,6 +182,6 @@ class PasswordChangeView(LoginRequiredMixin, SuccessMessageMixin, PasswordChange
         form.fields["new_password1"].label = 'کلمه عبور جدید'
         form.fields["new_password2"].label = 'تایید کلمه عبور جدید'
         form.fields["old_password"].widget.attrs['title'] = ''
-        form.fields["new_password1"].widget.attrs['title']  = ''
-        form.fields["new_password2"].widget.attrs['title']  = ''
+        form.fields["new_password1"].widget.attrs['title'] = ''
+        form.fields["new_password2"].widget.attrs['title'] = ''
         return form
