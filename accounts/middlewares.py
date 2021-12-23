@@ -13,5 +13,5 @@ class AdminUserMiddleWare(object):
                     request.is_verified = True
                 else:
                     request.is_verified = False
-
+        
         return self.get_response(request)

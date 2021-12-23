@@ -5,6 +5,7 @@ from django.contrib.auth.admin import UserAdmin as AbstractUserAdmin
 from .models import *
 from django.contrib.auth.models import Group
 
+
 # ----------------------------- Unregister Group ---------------------------
 admin.site.unregister(Group)
 
@@ -21,8 +22,7 @@ class VerifyCodeAdmin(admin.ModelAdmin):
 @register(User)
 class UserAdmin(AbstractUserAdmin):
     list_display = ['username', 'first_name', 'last_name', 'email', 'phone',
-                    'get_date_joined', 'get_last_update', 'created_by', 'is_active', 'is_superuser', 'is_manager',
-                    'verified_email']
+                    'get_date_joined', 'get_last_update', 'created_by', 'is_active', 'is_superuser', 'is_manager', 'verified_email']
 
     list_filter = ['is_active', 'is_superuser',
                    'is_manager', 'created_by']

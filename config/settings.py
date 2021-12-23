@@ -35,12 +35,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'OnlineForm',
+    'crispy_forms',
+    # 'OnlineForm',
     'SampleForms',
     'form_app',
     # 'django_form_builder'
     'bootstrapform',
-    'survey'
+    'survey',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -140,3 +142,7 @@ EMAIL_USE_TLS = True
 CSV_DIRECTORY = Path("csv")  # Define the directory where csv are exported
 TEX_DIRECTORY = Path("tex")
 USER_DID_NOT_ANSWER = "NAA"
+
+#
+AUTH_USER_MODEL = "users_management.User"
+AUTH_USER_MODEL = 'accounts.User'

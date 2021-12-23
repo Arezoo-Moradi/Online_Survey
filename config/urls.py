@@ -17,10 +17,13 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 
+# import accounts
 from config import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path('', include('accounts.urls')),
+    path('', include('accounts.urls', namespace='accounts')),
     # url(r'^forms/', include('pulpo_forms.urls'), name='base'),
 ]
 if 'survey' in settings.INSTALLED_APPS:

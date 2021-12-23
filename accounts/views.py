@@ -16,9 +16,8 @@ from random import randint
 from django.core.mail import EmailMessage
 from django.template.loader import get_template
 from django.contrib.auth.decorators import login_required
-from dashboards.models import *
-from pricing_project.settings import PRICING_DB
-
+# from dashboards.models import *
+# from pricing_project.settings import PRICING_DB
 
 # ------------------------------ SignUp View ------------------------------
 class SignUpView(SuccessMessageMixin, generic.CreateView):
@@ -35,6 +34,7 @@ class SignUpView(SuccessMessageMixin, generic.CreateView):
         login(self.request, user)
         send_email_verification(self.request)
         return HttpResponseRedirect("/")
+        
 
 
 # --------------------------- Verifications -----------------------------
@@ -52,7 +52,7 @@ class EmailVerificationView(LoginRequiredMixin, generic.TemplateView):
                 messages.warning(request, "کد تایید منقضی شده است!")
             elif email_verify_code != verify_code.code:
                 messages.error(request, "کد تایید صحیح نمی‌باشد!")
-
+            
             if email_verify_code == verify_code.code:
                 verify_code.is_used = True
                 user.verified_email = True
@@ -63,9 +63,8 @@ class EmailVerificationView(LoginRequiredMixin, generic.TemplateView):
             return redirect("accounts:email-verification")
 
         else:
-            messages.error(request, "کد تایید را وارد نمایید")
+            messages.error(request, "کد تایید را وارد نمایید") 
             return redirect("accounts:email-verification")
-
 
 @login_required()
 def send_email_verification(request):
@@ -79,67 +78,69 @@ def send_email_verification(request):
         messages.error(request, "حداکثر تعداد مجاز ارسال کد در یک روز استفاده شده است!")
         return redirect("accounts:email-verification")
     else:
-        vc = VerifyCode.objects.create(user=user, type="email", code=randint(100000, 999999))
+        vc = VerifyCode.objects.create(user=user, type="email", code=randint(100000,999999))
 
         data = {
             "user": user.get_full_name(),
             "code": vc.code,
-        }
+        }  
         email_template = "accounts/email_verification_text.html"
         email_message = get_template(email_template).render(data)
         try:
             msg = EmailMessage(
-                f"تایید پست الکترونیکی",
-                email_message,
-                'پنل قیمت‌گذاری هوشمند <example@example.com>',
-                [user.email]
+                    f"تایید پست الکترونیکی",
+                    email_message,
+                    'پنل قیمت‌گذاری هوشمند <example@example.com>',
+                    [user.email]
             )
             msg.send()
             print("sent !!!!!!!!!!")
-
+            
             messages.success(request, "کد تایید با موفقیت ارسال گردید.")
             return redirect("accounts:email-verification")
-
+            
         except:
             messages.error(request, "مشکلی در ارسال ایمیل پیش آمده!")
             return redirect("accounts:email-verification")
 
 
 # --------------------------- Subscription -----------------------------
-class SubscriptionView(LoginRequiredMixin, UserVerificationMixin, generic.TemplateView):
-    template_name = "accounts/subscription.html"
+# class SubscriptionView(LoginRequiredMixin, UserVerificationMixin, generic.TemplateView):
+#     template_name = "accounts/subscription.html"
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context["all_productgroups"] = Pricingreport.objects.using(PRICING_DB).\
+#             values_list('productgroup', flat=True).order_by('productgroup').distinct()
+#         context["all_dashboards"] = Dashboard.objects.all()
+#         context["user_dashboards"] = self.request.user.dashboards.all()
+#         if self.request.user.product_groups:
+#             context["user_productgroups"] = (self.request.user.product_groups).split(" , ")
+#         return context
+#
+#     def post(self, request):
+#         user = request.user
+#         productgroups_input = dict(request.POST).get('productgroup', [])
+#         dashboards_input = dict(request.POST).get('dashboard', [])
+#
+#         if not productgroups_input:
+#             messages.error(request, "حداقل یک گروه محصول انتخاب نمایید!")
+#         if not dashboards_input:
+#             messages.error(request, "حداقل یک داشبورد انتخاب نمایید!")
+#
+#         dashboards = Dashboard.objects.filter(id__in=dashboards_input)
+#         product_groups_text = " , ".join(productgroups_input)
+#
+#         if dashboards and product_groups_text:
+#             user.dashboards.clear()
+#             user.dashboards.add(*dashboards)
+#             user.product_groups = product_groups_text
+#             user.save()
+#             messages.success(request, "تغییرات با موفقیت اعمال گردید.")
+#
+#         return redirect("accounts:subscription")
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["all_productgroups"] = Pricingreport.objects.using(PRICING_DB). \
-            values_list('productgroup', flat=True).order_by('productgroup').distinct()
-        context["all_dashboards"] = Dashboard.objects.all()
-        context["user_dashboards"] = self.request.user.dashboards.all()
-        if self.request.user.product_groups:
-            context["user_productgroups"] = (self.request.user.product_groups).split(" , ")
-        return context
-
-    def post(self, request):
-        user = request.user
-        productgroups_input = dict(request.POST).get('productgroup', [])
-        dashboards_input = dict(request.POST).get('dashboard', [])
-
-        if not productgroups_input:
-            messages.error(request, "حداقل یک گروه محصول انتخاب نمایید!")
-        if not dashboards_input:
-            messages.error(request, "حداقل یک داشبورد انتخاب نمایید!")
-
-        dashboards = Dashboard.objects.filter(id__in=dashboards_input)
-        product_groups_text = " , ".join(productgroups_input)
-
-        if dashboards and product_groups_text:
-            user.dashboards.clear()
-            user.dashboards.add(*dashboards)
-            user.product_groups = product_groups_text
-            user.save()
-            messages.success(request, "تغییرات با موفقیت اعمال گردید.")
-
-        return redirect("accounts:subscription")
+        
 
 
 # ------------------------------ Login View ------------------------------
@@ -166,7 +167,8 @@ def login_view(request):
         else:
             msg = 'خطا در اعتبار اطلاعات!'
 
-    return render(request, "accounts/login.html", {"form": form, "msg": msg})
+    return render(request, "accounts/login.html", {"form": form, "msg" : msg})
+
 
 
 # ------------------------------ Password Change View ------------------------------
@@ -182,6 +184,6 @@ class PasswordChangeView(LoginRequiredMixin, SuccessMessageMixin, PasswordChange
         form.fields["new_password1"].label = 'کلمه عبور جدید'
         form.fields["new_password2"].label = 'تایید کلمه عبور جدید'
         form.fields["old_password"].widget.attrs['title'] = ''
-        form.fields["new_password1"].widget.attrs['title'] = ''
-        form.fields["new_password2"].widget.attrs['title'] = ''
+        form.fields["new_password1"].widget.attrs['title']  = ''
+        form.fields["new_password2"].widget.attrs['title']  = ''
         return form
