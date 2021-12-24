@@ -15,9 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 # import accounts
+from OnlineForm.views import SurveyCreateView
 from config import settings
 
 urlpatterns = [
@@ -25,8 +29,12 @@ urlpatterns = [
     # path('', include('accounts.urls')),
     path('', include('accounts.urls', namespace='accounts')),
     # url(r'^forms/', include('pulpo_forms.urls'), name='base'),
+    url(r"^test_view/", SurveyCreateView.as_view(), name='test-view')
 ]
 if 'survey' in settings.INSTALLED_APPS:
     urlpatterns += [
         url(r'^survey/', include('survey.urls'))
     ]
+
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
