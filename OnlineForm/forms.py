@@ -36,7 +36,7 @@ CategoryMetaInlineFormset = inlineformset_factory(
 )
 
 QuestionMetaInlineFormset = inlineformset_factory(
-    Category,
+    Survey,
     Question,
     fields=('text', 'order', 'required', 'type', 'choices'),
     extra=1
