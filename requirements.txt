@@ -1,1 +1,3 @@
 django-survey-and-report
+django-survey-and-report[sankey]
+pySankeyBeta
