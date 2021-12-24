@@ -1,0 +1,97 @@
+{% load static %}
+
+<!-- Required Js -->
+<script src="{% static 'js/vendor-all.min.js' %}"></script>
+<script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/pcoded.min.js' %}"></script>
+
+<!-- Notification Js -->
+<script src="{% static 'plugins/notification/bootstrap-growl.min.js'%}"></script>
+
+<!-- Custom Js -->
+<script src="{% static 'js/custom-js.js'%}"></script>
+<script src="{% static 'js/custom-full-screen.js'%}"></script>
+<script src="{% static 'js/download-pdf-image.js'%}"></script>
+<script src="{% static 'js/top-filter.js'%}"></script>
+<script src="{% static 'js/side-filter.js'%}"></script>
+
+<!-- data tables -->
+<script src="{% static 'js/management/datatables.min.js' %}"></script>
+<script src="{% static 'js/management/tbl-datatable-custom.js' %}"></script>
+
+<!-- jsDeliver -->
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.plugins.min.js"></script>
+
+<script>
+{% comment %}  messags  {% endcomment %}
+{% if messages %}
+{% for message in messages %}
+function notify(message, type) {
+        $.growl({
+            message: message
+        }, {
+            type: type,
+            allow_dismiss: false,
+            label: 'Cancel',
+            className: 'btn-xs btn-inverse',
+            placement: {
+                from: 'bottom',
+                align: 'left'
+            },
+            delay: 8000,
+            animate: {
+                enter: 'animated fadeInUp',
+                exit: 'animated fadeOutUp'
+            },
+            offset: {
+                x: 30,
+                y: 30
+            }
+        });
+    };
+    notify('{{ message }}', '{{ message.tags }}');
+{% endfor %}
+{% endif %}
+
+
+{% comment %} Side Bar collapse{% endcomment %}
+$('#sidebar').on('click', function () {
+    if ($(this).hasClass('navbar-collapsed')) {
+        $(this).toggleClass('closed')
+        $('.nav-item').removeClass('pcoded-trigger')
+        $('.pcoded-submenu').css('display', 'none')
+    }
+
+    if ($(this).hasClass('closed')) {
+        $('#sidebar_logo').attr('src', '{{site.small_logo_light.url}}');
+        $('#sidebar_logo').removeAttr('style');
+        $('#sidebar_logo').css({
+            "width": "45px"
+        });
+    } else {
+        $('#sidebar_logo').removeAttr('style');
+        $('#sidebar_logo').attr('src', '{{site.large_logo_light.url}}');
+    }
+})
+
+$('.pcoded-inner-navbar li.pcoded-hasmenu').on('click', function () {
+
+    $('#sidebar').removeClass('closed')
+
+    if ($(this).hasClass('closed')) {
+        $('#sidebar_logo').attr('src', '{{site.small_logo_light.url}}');
+        $('#sidebar_logo').removeAttr('style');
+        $('#sidebar_logo').css({
+            "width": "50px"
+        });
+    } else {
+        $('#sidebar_logo').removeAttr('style');
+        $('#sidebar_logo').attr('src', '{{site.large_logo_light.url}}');
+    }
+});
+        
+</script>
+
+
+
