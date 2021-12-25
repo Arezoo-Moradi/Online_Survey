@@ -1,0 +1,46 @@
+{% extends "layouts/base-fullscreen.html" %}
+{% block content %}
+<div class="container mt-4">
+    <form method="post">
+        {% csrf_token %}
+        <div class="card">
+            <div class="card-header">
+                <h4>فرم آنلاین</h4>
+            </div>
+            <div class="card-body">
+                {{ form.non_form_errors }}
+                {{ form.as_p }}
+                <h5 class="text-info">سوالات</h5>
+                {{ category_meta_formset.non_form_errors }}
+                {{ question_meta_formset.management_form }}
+                {% for form in category_meta_formset %}
+                <div class="d-flex py-1 inline {{ survey_meta_formset.prefix }}">
+                    <p>{{ form.name.label }}: {{ form.name }}</p>
+                    <p><div class="ml-4">{{ form.order.label }}: {{ form.order }}</div></p>
+                    <p><div class="ml-4">{{ form.description.label }}: {{ form.description }}</div></p>
+                    {% if category_meta_formset.can_delete %}
+                    <p><div class="ml-4">{{ form.DELETE }} {{ form.DELETE.label }}</div></p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                {% for form in question_meta_formset %}
+                <div class="d-flex py-1 inline {{ survey_meta_formset.prefix }}">
+                    <p class="ml-4">{{ form.text.label }}: {{ form.text }}</p>
+                    <p class="ml-4">{{ form.order.label }}: {{ form.order }}</p>
+                    <p class="ml-4">{{ form.required.label }}: {{ form.required }}</p>
+                    <p class="ml-4">{{ form.type.label }}: {{ form.type }}</p>
+                    <p class="ml-4">{{ form.choices.label }}: {{ form.choices }}</p>
+                    {% if question_meta_formset.can_delete %}
+                    <p class="ml-4">{{ form.DELETE }} {{ form.DELETE.label }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="mt-3 mb-5">
+            <button type="submit" class="px-5 btn btn-info">ارسال</button>
+        </div>
+    </form>
+</div>
+
+{%  endblock %}

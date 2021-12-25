@@ -8,6 +8,7 @@ from django.views.generic import TemplateView
 app_name = 'accounts'
 
 urlpatterns = [
+    path('', home, name="home"),
     path('login/', login_view, name="login"),
     path('signup/', SignUpView.as_view(), name="signup"),
     path("logout/", LogoutView.as_view(), name="logout"),

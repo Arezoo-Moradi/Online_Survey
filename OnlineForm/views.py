@@ -65,7 +65,7 @@ from OnlineForm.forms import SurveyForm, CategoryMetaInlineFormset, QuestionMeta
 
 class SurveyCreateView(CreateView):
     form_class = SurveyForm
-    template_name = 'survey/test.html'
+    template_name = 'test.html'
 
     def get_context_data(self, **kwargs):
         context = super(SurveyCreateView, self).get_context_data(**kwargs)

@@ -19,6 +19,11 @@ from django.contrib.auth.decorators import login_required
 # from dashboards.models import *
 # from pricing_project.settings import PRICING_DB
 
+# index page
+def home(request):
+    return render(request, 'accounts/index.html', {})
+
+
 # ------------------------------ SignUp View ------------------------------
 class SignUpView(SuccessMessageMixin, generic.CreateView):
     template_name = 'accounts/signup.html'

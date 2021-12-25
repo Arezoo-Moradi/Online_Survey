@@ -9,10 +9,13 @@ class UserRegisterForm(UserCreationForm):
   def __init__(self, *args, **kwargs):
         super(UserRegisterForm, self).__init__(*args, **kwargs)
         self.fields['username'].widget.attrs.pop("autofocus", None)
+        self.fields['username'].label = "نام کاربری"
         self.fields['username'].help_text = "<div class='text-right'>شامل حروف انگلیسی، اعداد و علامات</div>"
         self.fields['first_name'].widget.attrs.update(autofocus='autofocus')
+        self.fields['first_name'].label = "نام"
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
+        self.fields['last_name'].label = "نام خانوادگی"
         self.fields['password1'].label = "کلمه عبور"
         self.fields['password2'].label = "تکرار کلمه عبور"
         self.fields['email'].label = "پست الکترونیکی"
@@ -39,7 +42,6 @@ class UserRegisterForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'first_name', 'last_name', 'email', 'phone', 'password1' ,'password2']
         
-    
 
 class LoginForm(forms.Form):
     username = forms.CharField(
@@ -54,7 +56,7 @@ class LoginForm(forms.Form):
     password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                "placeholder" : "کلمه عبور",
+                "placeholder": "کلمه عبور",
                 "class": "form-control text-center",
                 "title": "",
             }
