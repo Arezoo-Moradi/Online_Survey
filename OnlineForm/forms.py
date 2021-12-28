@@ -36,6 +36,7 @@ class SurveyForm(models.ModelForm):  # new
     class Meta:
         model = Survey
         fields = '__all__'
+        exclude = ['need_logged_user', 'template', 'publish_date', 'expire_date']
 
 
 class CategoryForm(models.ModelForm):  # new

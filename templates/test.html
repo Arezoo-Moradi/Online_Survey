@@ -14,7 +14,8 @@
                 {{ category_meta_formset.non_form_errors }}
                 {{ question_meta_formset.management_form }}
                 {% for form in category_meta_formset %}
-                <div class="d-flex py-1 inline {{ survey_meta_formset.prefix }}">
+                <div>
+{#                    <div class="d-flex py-1 inline {{ survey_meta_formset.prefix }}">#}
                     <p>{{ form.name.label }}: {{ form.name }}</p>
                     <p><div class="ml-4">{{ form.order.label }}: {{ form.order }}</div></p>
                     <p><div class="ml-4">{{ form.description.label }}: {{ form.description }}</div></p>
@@ -24,14 +25,14 @@
                 </div>
                 {% endfor %}
                 {% for form in question_meta_formset %}
-                <div class="d-flex py-1 inline {{ survey_meta_formset.prefix }}">
+                <div>
                     <p class="ml-4">{{ form.text.label }}: {{ form.text }}</p>
                     <p class="ml-4">{{ form.order.label }}: {{ form.order }}</p>
                     <p class="ml-4">{{ form.required.label }}: {{ form.required }}</p>
                     <p class="ml-4">{{ form.type.label }}: {{ form.type }}</p>
                     <p class="ml-4">{{ form.choices.label }}: {{ form.choices }}</p>
                     {% if question_meta_formset.can_delete %}
-                    <p class="ml-4">{{ form.DELETE }} {{ form.DELETE.label }}</p>
+                    <p class="ml-4">{{ form.DELETE }} حذف </p>
                     {% endif %}
                 </div>
                 {% endfor %}
